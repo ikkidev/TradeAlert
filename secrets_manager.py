@@ -1,7 +1,7 @@
 import json
 
 
-def read_secrets(path):
+def get_secret(path):
     with open(path, 'r') as secret:
         data = secret.read()
 

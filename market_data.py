@@ -3,7 +3,20 @@ import secrets_manager
 
 
 class MarketData(ABC):
-    api_key: str
+
+    @abstractmethod
+    def __init__(self, api_key):
+        self.__api_key = api_key
+
+    @property
+    @abstractmethod
+    def api_key(self):
+        pass
+
+    @api_key.setter
+    @abstractmethod
+    def api_key(self, value):
+        pass
 
     @abstractmethod
     def get_quote(self):
@@ -13,12 +26,19 @@ class MarketData(ABC):
     def get_quote_delta(self):
         pass
 
-    @abstractmethod
-    def get_api_key(self, path):
-        pass
-
 
 class AlphaVantage(MarketData):
+    def __init__(self, api_key):
+        self.__api_key = api_key
+
+    @property
+    def api_key(self):
+        return self.__api_key
+
+    @api_key.setter
+    def api_key(self, value):
+        self.__api_key = value
+
     def get_quote(self):
         pass
 
