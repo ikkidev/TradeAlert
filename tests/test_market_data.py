@@ -2,6 +2,7 @@ import pytest
 import secrets_manager
 
 from market_data import AlphaVantage
+from pandas import DataFrame, read_csv
 
 def test_instantiate_alpha_vantage_with_api_key():
     """
@@ -11,7 +12,7 @@ def test_instantiate_alpha_vantage_with_api_key():
     alpha_vantage_data = AlphaVantage(api_key)
     print (alpha_vantage_data.api_key)
 
-def test_get_quote_from_alpha_vantage():
+def test_alpha_vantage_get_quote():
     """
     Test fetching stock quotes from alpha vantage
     """
@@ -24,5 +25,28 @@ def test_get_quote_from_alpha_vantage():
     print(data)
     assert isinstance(data, dict) is True
 
-def test_get_quote_delta():
-    pass
+def test_alpha_vantage_get_daily_adjusted_quote():
+    """
+    Test fetching daily adjusted stock quote from alpha vantage
+    """
+    path = "../alpha_vantage_secrets.json"
+    secret = secrets_manager.get_secret(path)
+    api_key = secret.get("api_key")
+
+    alpha_vantage_data = AlphaVantage(api_key)
+    data = alpha_vantage_data.get_daily_adjusted_quote('TSLA', 'pandas')
+    print(data[0])
+    assert isinstance(data, DataFrame) is True
+
+
+def test_alpha_vantage_get_daily_adjusted_quote_delta():
+    """
+    Test calculating the difference of price
+    """
+    path = "../alpha_vantage_secrets.json"
+    secret = secrets_manager.get_secret(path)
+    api_key = secret.get("api_key")
+    alpha_vantage_data = AlphaVantage(api_key)
+    data = read_csv('TEST_DAILY_ADJUSTED_QUOTE.csv')
+    delta = alpha_vantage_data.get_daily_adjusted_close_quote_delta(data)
+    assert delta == 4.460000000000036

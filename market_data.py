@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from alpha_vantage.timeseries import TimeSeries
+import datetime
+import pandas
 
 class MarketData(ABC):
 
@@ -19,10 +21,6 @@ class MarketData(ABC):
 
     @abstractmethod
     def get_quote(self, symbol):
-        pass
-
-    @abstractmethod
-    def get_quote_delta(self):
         pass
 
 
@@ -46,8 +44,22 @@ class AlphaVantage(MarketData):
         data, meta_data = time_series.get_intraday(symbol=symbol, interval='1min', outputsize='full')
         return data
 
-    def get_quote_delta(self):
-        pass
+    def get_daily_adjusted_quote(self, symbol, output_format):
+        time_series = TimeSeries(key=self.api_key, output_format=output_format)
+        data, meta_data = time_series.get_daily_adjusted(symbol)
+        return data
+
+    def get_daily_adjusted_close_quote_delta(self, data):
+        """
+        Calculate the difference between the closing quote of yesterday and day before yesterday
+        :param data:
+        :return: difference in closing quote as a float
+        """
+
+        yesterday_closing_price = data.loc[0, '5. adjusted close']
+        day_before_yesterday_closing_price = data.loc[1, '5. adjusted close']
+        delta = yesterday_closing_price - day_before_yesterday_closing_price
+        return delta
 
 
 class GoogleFinance(MarketData):
