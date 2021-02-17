@@ -16,7 +16,7 @@ def test_alpha_vantage_get_quote():
     """
     Test fetching stock quotes from alpha vantage
     """
-    path = "../alpha_vantage_secrets.json"
+    path = "../secrets/alpha_vantage_secrets.json"
     secret = secrets_manager.get_secret(path)
     api_key = secret.get("api_key")
 
@@ -29,7 +29,7 @@ def test_alpha_vantage_get_daily_adjusted_quote():
     """
     Test fetching daily adjusted stock quote from alpha vantage
     """
-    path = "../alpha_vantage_secrets.json"
+    path = "../secrets/alpha_vantage_secrets.json"
     secret = secrets_manager.get_secret(path)
     api_key = secret.get("api_key")
 
@@ -42,7 +42,7 @@ def test_alpha_vantage_get_percentage_difference_of_quotes():
     """
     Test calculating the difference of price
     """
-    path = "../alpha_vantage_secrets.json"
+    path = "../secrets/alpha_vantage_secrets.json"
     secret = secrets_manager.get_secret(path)
     api_key = secret.get("api_key")
     alpha_vantage_data = AlphaVantage(api_key)
