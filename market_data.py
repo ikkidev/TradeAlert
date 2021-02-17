@@ -3,6 +3,7 @@ from alpha_vantage.timeseries import TimeSeries
 import datetime
 import pandas
 
+
 class MarketData(ABC):
 
     @abstractmethod
@@ -69,7 +70,6 @@ class AlphaVantage(MarketData):
 
         percentage_difference = round(difference / yesterday_closing_price * 100)
         return percentage_difference, up_down
-
 
 
 class GoogleFinance(MarketData):
