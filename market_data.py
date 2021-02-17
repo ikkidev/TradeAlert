@@ -72,14 +72,6 @@ class AlphaVantage(MarketData):
         return percentage_difference, up_down
 
 
-class GoogleFinance(MarketData):
-    def get_quote(self, symbol):
-        pass
-
-    def get_quote_delta(self):
-        pass
-
-
 class YahooFinance(MarketData):
     def get_quote(self, symbol):
         pass
