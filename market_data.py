@@ -49,17 +49,27 @@ class AlphaVantage(MarketData):
         data, meta_data = time_series.get_daily_adjusted(symbol)
         return data
 
-    def get_daily_adjusted_close_quote_delta(self, data):
+    def get_percentage_difference_of_quotes(self, data):
         """
         Calculate the difference between the closing quote of yesterday and day before yesterday
         :param data:
-        :return: difference in closing quote as a float
+        :return: percentage_difference: percentage difference of quote rounded to the closest integer
+                 up_down:               whether the price went up or down
         """
 
         yesterday_closing_price = data.loc[0, '5. adjusted close']
         day_before_yesterday_closing_price = data.loc[1, '5. adjusted close']
-        delta = yesterday_closing_price - day_before_yesterday_closing_price
-        return delta
+        difference = yesterday_closing_price - day_before_yesterday_closing_price
+
+        up_down = 0
+        if difference > 0:
+            up_down = "🔺"
+        else:
+            up_down = "🔻"
+
+        percentage_difference = round(difference / yesterday_closing_price * 100)
+        return percentage_difference, up_down
+
 
 
 class GoogleFinance(MarketData):

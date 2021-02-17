@@ -35,11 +35,10 @@ def test_alpha_vantage_get_daily_adjusted_quote():
 
     alpha_vantage_data = AlphaVantage(api_key)
     data = alpha_vantage_data.get_daily_adjusted_quote('TSLA', 'pandas')
-    print(data[0])
     assert isinstance(data, DataFrame) is True
 
 
-def test_alpha_vantage_get_daily_adjusted_quote_delta():
+def test_alpha_vantage_get_percentage_difference_of_quotes():
     """
     Test calculating the difference of price
     """
@@ -48,5 +47,7 @@ def test_alpha_vantage_get_daily_adjusted_quote_delta():
     api_key = secret.get("api_key")
     alpha_vantage_data = AlphaVantage(api_key)
     data = read_csv('TEST_DAILY_ADJUSTED_QUOTE.csv')
-    delta = alpha_vantage_data.get_daily_adjusted_close_quote_delta(data)
-    assert delta == 4.460000000000036
+    percentage_difference, up_down = alpha_vantage_data.get_percentage_difference_of_quotes(data)
+    assert percentage_difference == 1
+    assert up_down == "🔺"
+
