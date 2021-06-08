@@ -34,7 +34,7 @@ def test_alpha_vantage_get_daily_adjusted_quote():
     api_key = secret.get("api_key")
 
     alpha_vantage_data = AlphaVantage(api_key)
-    data = alpha_vantage_data.get_daily_adjusted_quote('TSLA', 'pandas')
+    data = alpha_vantage_data.get_daily_adjusted_quote('TSLA')
     assert isinstance(data, DataFrame) is True
 
 
@@ -46,7 +46,7 @@ def test_alpha_vantage_get_percentage_difference_of_quotes():
     secret = secrets_manager.get_secret(path)
     api_key = secret.get("api_key")
     alpha_vantage_data = AlphaVantage(api_key)
-    data = read_csv('TEST_DAILY_ADJUSTED_QUOTE.csv')
+    data = read_csv('TEST_DAILY_ADJUSTED_QUOTE.csv', index_col='date', parse_dates=True)
     percentage_difference, up_down = alpha_vantage_data.get_percentage_difference_of_quotes(data)
     assert percentage_difference == 1
     assert up_down == "🔺"
