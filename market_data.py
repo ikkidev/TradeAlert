@@ -59,14 +59,15 @@ class AlphaVantage(MarketData):
         data, meta_data = time_series.get_daily_adjusted(symbol)
         return data
 
-    def get_percentage_difference_of_quotes(self, data):
+    def get_percentage_difference_of_quotes(self, data, quote_date=None):
         """
-        Calculate the difference between the closing quote of yesterday and day before yesterday
+        Calculate the difference between the closing quote of day before quote_date and 2 days before quote_date
         :param data: The pandas dataframe with the adjusted daily quotes historical data
+        :param quote_date: The date for the quote
         :return: percentage_difference: percentage difference of quote rounded to the closest integer
                  up_down:               whether the price went up or down
         """
-        today = date.today()
+        today = quote_date or date.today()
         yesterday = today - timedelta(days=1)
         yesterday = yesterday.strftime('%Y-%m-%d')
         day_before_yesterday = today - timedelta(days=2)

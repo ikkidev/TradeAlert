@@ -1,8 +1,10 @@
 import pytest
 import secrets_manager
+import datetime
 
 from market_data import AlphaVantage
 from pandas import DataFrame, read_csv
+
 
 def test_instantiate_alpha_vantage_with_api_key():
     """
@@ -47,7 +49,8 @@ def test_alpha_vantage_get_percentage_difference_of_quotes():
     api_key = secret.get("api_key")
     alpha_vantage_data = AlphaVantage(api_key)
     data = read_csv('TEST_DAILY_ADJUSTED_QUOTE.csv', index_col='date', parse_dates=True)
-    percentage_difference, up_down = alpha_vantage_data.get_percentage_difference_of_quotes(data)
+    quote_date= datetime.datetime.strptime("2021-02-12", '%Y-%m-%d')
+    percentage_difference, up_down = alpha_vantage_data.get_percentage_difference_of_quotes(data, quote_date)
     assert percentage_difference == 1
     assert up_down == "🔺"
 
