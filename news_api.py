@@ -15,6 +15,7 @@ class NewsApi:
         self.auth = NewsApiAuth(api_key=api_key)
         self.request_method = requests
 
+    #TODO: Add support to pass country parameter
     def get_top_headlines(self, keyword, num_of_articles):
         """
         Return top num_of_articles from news api top headlines endpoint
@@ -35,7 +36,8 @@ class NewsApi:
         response = self.request_method.get(news_api_const.TOP_HEADLINES_URL, auth=self.auth, timeout=30, params=payload)
         response.raise_for_status()
         articles = response.json().get("articles")[:num_of_articles]
-        print(f'Found {num_of_articles} articles: {articles}')
+        #TODO: Add logger for debugging msg
+        #print(f'Found {num_of_articles} articles: {articles}')
         return articles
 
     def get_everything(self, keyword,

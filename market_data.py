@@ -59,6 +59,7 @@ class AlphaVantage(MarketData):
         data, meta_data = time_series.get_daily_adjusted(symbol)
         return data
 
+    #TODO: Handle weekend dates
     def get_percentage_difference_of_quotes(self, data, quote_date=None):
         """
         Calculate the difference between the closing quote of day before quote_date and 2 days before quote_date
